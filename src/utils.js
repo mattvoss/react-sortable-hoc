@@ -9,7 +9,7 @@ export function arrayMove (array, previousIndex, newIndex) {
     return array;
 }
 
-export const touchSupport = Boolean(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
+export const touchSupport = (typeof(window) == 'undefined') ? false : Boolean(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
 
 export const events = {
 	start: (touchSupport) ? 'touchstart' : 'mousedown',
@@ -18,13 +18,17 @@ export const events = {
 };
 
 export const vendorPrefix = (function () {
-    let styles = window.getComputedStyle(document.documentElement, '');
-    let pre = (Array.prototype.slice
-        .call(styles)
-        .join('')
-        .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
-    )[1];
-    return pre[0].toUpperCase() + pre.substr(1);
+    if (typeof(window) == 'undefined') {
+        return '';
+    } else {
+        let styles = window.getComputedStyle(document.documentElement, '');
+        let pre = (Array.prototype.slice
+            .call(styles)
+            .join('')
+            .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
+        )[1];
+        return pre[0].toUpperCase() + pre.substr(1);
+    }
 })();
 
 export function closest(el, fn) {

@@ -25,7 +25,7 @@ export default function SortableContainer(WrappedComponent, config = {withRef: f
 			pressDelay: 0,
 			useWindowAsScrollContainer: false,
 			hideSortableGhost: true,
-			contentWindow: window,
+			contentWindow:  (typeof(window) == 'undefined') ? new Object() : window,
 			lockToContainerEdges: false
 		};
 		static propTypes = {
